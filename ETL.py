@@ -73,16 +73,14 @@ class ETL:
        
     # -------------------- STEP 1: Extract --------------------
     def number_pages(self):
-      	response = requests.get(self.base_url)
-      	parsed_content = BeautifulSoup(response.content, 'html.parser')
-      	div_content = parsed_content.find('div', class_='pagination-total').text
-      	total_reviews = int(div_content.split('of')[1].split('Reviews')[0].strip())
-      	page=total_reviews/self.page_size
-      	if page%1!=0:
-          	page=int(page)+1
-      	else:
-          	page=int(page)
-      	return page
+        response = requests.get(self.base_url)
+        AppLog.info(self.base_url)
+        parsed_content = BeautifulSoup(response.content, 'html.parser')
+        div_content = parsed_content.find('div', class_='pagination-total').text
+        total_reviews = int(div_content.split('of')[1].split('Reviews')[0].strip())
+        page = total_reviews / self.page_size
+        page = int(page) + 1 if page % 1 != 0 else int(page)
+        return page
     def extract(self) -> pd.DataFrame:
         """
         Extracts review data from British Airways reviews on AirlineQuality.com.
