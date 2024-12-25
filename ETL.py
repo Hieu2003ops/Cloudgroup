@@ -65,12 +65,12 @@ class ETL:
         try:
             client = bigquery.Client.from_service_account_info(service_account_json)
             print("BigQuery client created successfully.")
+            return client
         except Exception as e:
             print(f"Error creating BigQuery client: {e}")
-        return client
-
-
-
+        return None
+            
+       
     # -------------------- STEP 1: Extract --------------------
     def number_pages(self):
       	response = requests.get(self.base_url)
